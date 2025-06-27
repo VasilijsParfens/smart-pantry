@@ -1,5 +1,8 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/db');
+const { Sequelize, DataTypes } = require('sequelize');
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: './database.sqlite'
+});
 
 const Item = sequelize.define('Item', {
   name: {
@@ -8,11 +11,14 @@ const Item = sequelize.define('Item', {
   },
   quantity: {
     type: DataTypes.INTEGER,
-    defaultValue: 0,
+    allowNull: false,
   },
   expirationDate: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
+    allowNull: false,
   },
+}, {
+  timestamps: true,
 });
 
-module.exports = Item;
+module.exports = { sequelize, Item };
